@@ -137,7 +137,8 @@
             <div
               *ngIf="
                 dadosPessoaisForm.get('confirmarSenha')?.touched &&
-                dadosPessoaisForm.get('confirmarSenha')?.invalid
+                (dadosPessoaisForm.get('confirmarSenha')?.invalid ||
+                  dadosPessoaisForm.errors?.['senhasNaoIguais'])
               "
               class="cadastro-form__error"
             >
@@ -146,6 +147,13 @@
                   dadosPessoaisForm.get('confirmarSenha')?.errors?.['required']
                 "
                 >Confirmar Senha é obrigatória.</span
+              >
+              <span
+                *ngIf="
+                  dadosPessoaisForm.errors?.['senhasNaoIguais'] &&
+                  dadosPessoaisForm.get('confirmarSenha')?.touched
+                "
+                >As senhas devem ser iguais.</span
               >
             </div>
           </div>
