@@ -39,7 +39,8 @@
             class="cadastro-form__input"
             type="text"
             placeholder="000.000.000-00"
-            maxlength="11"
+            inputmode="numeric"
+            maxlength="14"
           />
           <div
             *ngIf="
@@ -94,10 +95,6 @@
               id="cidade"
               class="cadastro-form__select"
               formControlName="cidade"
-              [disabled]="
-                (carregandoCidades$ | async) ||
-                !dadosPessoaisForm.get('estado')?.value
-              "
             >
               <option value="" disabled selected>
                 {{
@@ -113,6 +110,7 @@
 
             <div
               *ngIf="
+                dadosPessoaisForm.get('estado')?.value &&
                 dadosPessoaisForm.get('cidade')?.touched &&
                 dadosPessoaisForm.get('cidade')?.invalid
               "
@@ -125,25 +123,50 @@
 
         <div class="cadastro-form__field">
           <label for="email" class="cadastro-form__label">E-mail</label>
-          <input
-            id="email"
-            formControlName="email"
-            class="cadastro-form__input"
-            type="email"
-          />
-          <div
-            *ngIf="
-              dadosPessoaisForm.get('email')?.touched &&
-              dadosPessoaisForm.get('email')?.invalid
-            "
-            class="cadastro-form__error"
-          >
-            <span *ngIf="dadosPessoaisForm.get('email')?.errors?.['required']"
-              >E-mail é obrigatório.</span
+          <div class="input-container">
+            <input
+              id="email"
+              formControlName="email"
+              class="cadastro-form__input"
+              type="email"
+              [ngClass]="{
+                'cadastro-form__input--error':
+                  dadosPessoaisForm.get('email')?.invalid &&
+                  dadosPessoaisForm.get('email')?.touched,
+                'cadastro-form__input--pending':
+                  dadosPessoaisForm.get('email')?.pending,
+              }"
+            />
+          </div>
+
+          <div class="cadastro-form__error-container">
+            <div
+              *ngIf="
+                dadosPessoaisForm.get('email')?.touched &&
+                dadosPessoaisForm.get('email')?.invalid &&
+                !dadosPessoaisForm.get('email')?.pending
+              "
+              class="cadastro-form__error"
             >
-            <span *ngIf="dadosPessoaisForm.get('email')?.errors?.['email']"
-              >E-mail deve ser válido.</span
+              <span *ngIf="dadosPessoaisForm.get('email')?.errors?.['required']"
+                >E-mail é obrigatório.</span
+              >
+              <span *ngIf="dadosPessoaisForm.get('email')?.errors?.['email']"
+                >E-mail deve ser válido.</span
+              >
+              <span
+                *ngIf="
+                  dadosPessoaisForm.get('email')?.errors?.['emailExistente']
+                "
+                >E-mail já está cadastrado.</span
+              >
+            </div>
+            <div
+              *ngIf="dadosPessoaisForm.get('email')?.pending"
+              class="cadastro-form__pending"
             >
+              Verificando disponibilidade...
+            </div>
           </div>
         </div>
 
@@ -222,7 +245,6 @@
             type="primary"
             icon="fas fa-arrow-right"
             iconPosition="right"
-            [disabled]="dadosPessoaisForm.invalid"
             (clicked)="onProximo()"
           >
           </app-button>
