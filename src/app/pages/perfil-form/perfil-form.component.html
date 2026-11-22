@@ -17,7 +17,7 @@
               (click)="fileInput.click()"
             >
               <ng-container *ngIf="!fotoPreview">
-                <div>
+                <div class="cadastro-form__upload-placeholder">
                   <i class="fas fa-cloud-upload-alt"></i>
                   <p>
                     Arraste arquivos para esta área ou clique para fazer o
@@ -35,6 +35,7 @@
             </div>
             <input
               #fileInput
+              id="foto"
               type="file"
               accept="image/*"
               style="display: none"
@@ -46,15 +47,19 @@
         <div class="cadastro-form__field">
           <label for="resumo" class="cadastro-form__label">Resumo</label>
           <textarea
+            id="resumo"
             name="resumo"
             formControlName="resumo"
             class="cadastro-form__textarea"
             maxlength="70"
             rows="3"
           ></textarea>
-          <div class="cadastro-form__field--info">
-            <span>Faça um resumo em até 70 caracteres</span>
-            <span>{{ caracteresRestantes }}</span>
+          <div class="cadastro-form__field-info">
+            <span>Faça um resumo em até 70 caracteres.</span>
+            <span class="cadastro-form__caracteres">{{ caracteresRestantes }}</span>
+          </div>
+          <div class="cadastro-form__field-example">
+            Exemplo: Designer experiente em identidade visual
           </div>
           <div
             *ngIf="
@@ -72,7 +77,7 @@
           </div>
         </div>
 
-        <div class="cadastro-form__label">
+        <div class="cadastro-form__field">
           <label class="cadastro-form__label"
             >Cite até 3 habilidades que você considera principais</label
           >
@@ -93,20 +98,22 @@
 
         <div class="cadastro-form__field">
           <div class="cadastro-form__row cadastro-form__row--header">
-            <label class="cadastro-form__column">Idiomas</label>
-          </div>
-          <div class="cadastro-form__column">
-            <label class="cadastro-form__label">Nível</label>
+            <div class="cadastro-form__column">
+              <label class="cadastro-form__label">Idiomas</label>
+            </div>
+            <div class="cadastro-form__column">
+              <label class="cadastro-form__label">Nível</label>
+            </div>
           </div>
 
           <ng-container formArrayName="idiomas">
             <div
               *ngFor="let idiomaForm of idiomasArray.controls; let i = index"
               [formGroupName]="i"
-              class="cadastro-form-row"
+              class="cadastro-form__row"
             >
-              <div class="cadastro-form_column">
-                <select formControlName="nome" class="cadastro-form__select">
+              <div class="cadastro-form__column">
+                <select formControlName="idioma" class="cadastro-form__select">
                   <option value="" disabled>Escolha o idioma</option>
                   <option *ngFor="let idioma of idiomas" [value]="idioma">
                     {{ idioma }}
@@ -114,17 +121,17 @@
                 </select>
                 <div
                   *ngIf="
-                    idiomaForm.get('nome')?.invalid &&
-                    idiomaForm.get('nome')?.touched
+                    idiomaForm.get('idioma')?.invalid &&
+                    idiomaForm.get('idioma')?.touched
                   "
                   class="cadastro-form__error"
                 >
                   O idioma é obrigatório.
                 </div>
               </div>
-              <div class="cadastro-form_column">
+              <div class="cadastro-form__column">
                 <select formControlName="nivel" class="cadastro-form__select">
-                  <option value="" disabled>Escolha o nível</option>
+                  <option value="" disabled>Nível de conhecimento</option>
                   <option *ngFor="let nivel of niveisIdioma" [value]="nivel">
                     {{ nivel }}
                   </option>
@@ -139,12 +146,12 @@
                   O nível é obrigatório.
                 </div>
               </div>
-              <div class="cadastro-form__column cadastro-form_column--actions">
+              <div class="cadastro-form__column cadastro-form__column--actions">
                 <button
                   type="button"
                   class="cadastro-form__icon-button"
                   (click)="removerIdioma(i)"
-                  *ngIf="i > 0 || idiomaForm.get('nome')?.value !== 'Português'"
+                  *ngIf="i > 0 || idiomaForm.get('idioma')?.value !== 'Português'"
                 >
                   Remover
                 </button>
@@ -152,22 +159,25 @@
             </div>
           </ng-container>
 
-          <button
-            type="button"
-            class="cadastro-form__icon-button"
-            (click)="adicionarIdioma()"
-          >
-            <i class="fas fa-plus-circle"></i> Adicionar idiomas
-          </button>
+          <div class="cadastro-form__add-button">
+            <button
+              type="button"
+              class="cadastro-form__text-button"
+              (click)="adicionarIdioma()"
+            >
+              <i class="fas fa-plus-circle"></i> Adicionar idiomas
+            </button>
+          </div>
         </div>
 
         <div class="cadastro-form__field">
-          <label for="portfolio" class="cadastro-form__label">Portfolio</label>
+          <label for="portfolio" class="cadastro-form__label">Portfólio</label>
           <input
             type="url"
             id="portfolio"
             formControlName="portfolio"
             class="cadastro-form__input"
+            placeholder="Cole o link do seu portfólio"
           />
           <div
             *ngIf="
@@ -181,12 +191,13 @@
         </div>
 
         <div class="cadastro-form__field">
-          <label for="linkedin" class="cadastro-form__label">Linkedin</label>
+          <label for="linkedin" class="cadastro-form__label">LinkedIn</label>
           <input
             type="url"
             id="linkedin"
             formControlName="linkedin"
             class="cadastro-form__input"
+            placeholder="Cole o link do seu perfil no LinkedIn"
           />
           <div
             *ngIf="
@@ -195,7 +206,7 @@
             "
             class="cadastro-form__error"
           >
-            URL do Linkedin inválida.
+            URL do LinkedIn inválida.
           </div>
         </div>
 
