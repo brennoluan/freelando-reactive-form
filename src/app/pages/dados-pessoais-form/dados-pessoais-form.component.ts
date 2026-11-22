@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { CadastroService } from '../../shared/services/cadastro.service';
 import { Estado, Cidade, IbgeService } from '../../shared/services/ibge.service';
 import { BehaviorSubject, Observable, startWith, switchMap, tap, of } from 'rxjs';
+import { cpfValidator } from '../../shared/validators/cpf.validator';
 
 export const senhasIguaisValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const senha = control.get('senha')?.value;
@@ -47,6 +48,7 @@ export class DadosPessoaisFormComponent implements OnInit {
 
     this.dadosPessoaisForm = this.fb.group({
       nomeCompleto: ['', Validators.required],
+      cpf: ['', [Validators.required, cpfValidator]],
       estado: ['', Validators.required],
       cidade: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
