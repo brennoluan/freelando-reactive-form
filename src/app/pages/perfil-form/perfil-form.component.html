@@ -43,6 +43,35 @@
           </div>
         </div>
 
+        <div class="cadastro-form__field">
+          <label for="resumo" class="cadastro-form__label">Resumo</label>
+          <textarea
+            name="resumo"
+            formControlName="resumo"
+            class="cadastro-form__textarea"
+            maxlength="70"
+            rows="3"
+          ></textarea>
+          <div class="cadastro-form__field--info">
+            <span>Faça um resumo em até 70 caracteres</span>
+            <span>{{ caracteresRestantes }}</span>
+          </div>
+          <div
+            *ngIf="
+              perfilForm.get('resumo')?.invalid &&
+              perfilForm.get('resumo')?.touched
+            "
+            class="cadastro-form__error"
+          >
+            <span *ngIf="perfilForm.get('resumo')?.errors?.['required']"
+              >O resumo é obrigatório.</span
+            >
+            <span *ngIf="perfilForm.get('resumo')?.errors?.['maxlength']"
+              >O resumo não pode ter mais de 70 caracteres.</span
+            >
+          </div>
+        </div>
+
         <div class="cadastro-form__label">
           <label class="cadastro-form__label"
             >Cite até 3 habilidades que você considera principais</label
@@ -130,6 +159,44 @@
           >
             <i class="fas fa-plus-circle"></i> Adicionar idiomas
           </button>
+        </div>
+
+        <div class="cadastro-form__field">
+          <label for="portfolio" class="cadastro-form__label">Portfolio</label>
+          <input
+            type="url"
+            id="portfolio"
+            formControlName="portfolio"
+            class="cadastro-form__input"
+          />
+          <div
+            *ngIf="
+              perfilForm.get('portfolio')?.invalid &&
+              perfilForm.get('portfolio')?.touched
+            "
+            class="cadastro-form__error"
+          >
+            URL inválida. Inclua http:// ou https://
+          </div>
+        </div>
+
+        <div class="cadastro-form__field">
+          <label for="linkedin" class="cadastro-form__label">Linkedin</label>
+          <input
+            type="url"
+            id="linkedin"
+            formControlName="linkedin"
+            class="cadastro-form__input"
+          />
+          <div
+            *ngIf="
+              perfilForm.get('linkedin')?.invalid &&
+              perfilForm.get('linkedin')?.touched
+            "
+            class="cadastro-form__error"
+          >
+            URL do Linkedin inválida.
+          </div>
         </div>
 
         <div class="cadastro-form__actions">
