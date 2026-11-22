@@ -34,6 +34,13 @@ describe('DadosPessoaisFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('initializes city as disabled before rendering', () => {
+    const newFixture = TestBed.createComponent(DadosPessoaisFormComponent);
+    newFixture.componentInstance.ngOnInit();
+
+    expect(newFixture.componentInstance.dadosPessoaisForm.get('cidade')!.disabled).toBeTrue();
+  });
+
   it('disables city until cities are loaded and resets it when state changes', () => {
     const estado = component.dadosPessoaisForm.get('estado')!;
     const cidade = component.dadosPessoaisForm.get('cidade')!;
@@ -44,6 +51,8 @@ describe('DadosPessoaisFormComponent', () => {
     estado.setValue('1');
     expect(cidade.disabled).toBeTrue();
     expect(component.carregandoCidades$.value).toBeTrue();
+    fixture.detectChanges();
+    expect(select.disabled).toBeTrue();
     cidades.next([{ id: 1, nome: 'Cidade' }]);
     fixture.detectChanges();
     expect(cidade.enabled).toBeTrue();
@@ -53,6 +62,13 @@ describe('DadosPessoaisFormComponent', () => {
     estado.setValue('2');
     expect(cidade.disabled).toBeTrue();
     expect(cidade.value).toBe('');
+    fixture.detectChanges();
+    expect(select.disabled).toBeTrue();
+    estado.setValue('');
+    fixture.detectChanges();
+    expect(cidade.disabled).toBeTrue();
+    expect(select.disabled).toBeTrue();
+    expect(component.carregandoCidades$.value).toBeFalse();
   });
 
   it('does not advance while cities are loading', fakeAsync(() => {
