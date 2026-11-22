@@ -1,22 +1,35 @@
 import { Component } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RadioOptionComponent } from '../../shared/components/radio-option/radio-option.component';
+import { ExperienceLevelComponent } from '../../shared/components/experience-level/experience-level.component';
+import { ButtonComponent } from '../../shared/components/button/button.component';
 
 const MODULES = [
   CommonModule,
   ReactiveFormsModule
 ];
 
+const COMPONENTS = [
+  RadioOptionComponent,
+  ExperienceLevelComponent,
+  ButtonComponent
+];
+
 @Component({
   selector: 'app-cadastro-form',
   standalone: true,
   imports: [
-    ...MODULES
-  ],
+    ...MODULES,
+    ...COMPONENTS,
+    ExperienceLevelComponent,
+    ButtonComponent
+],
   templateUrl: './cadastro-form.component.html',
   styleUrls: ['./cadastro-form.component.scss']
 })
-export class CadastroFormComponent {
+export class CadastroFormComponent implements OnInit {
   cadastroForm!: FormGroup;
 
   areasAtuacao = [
@@ -45,4 +58,29 @@ export class CadastroFormComponent {
       description: '(6 anos ou mais)'
     }
   ];
+
+  constructor(private fb: FormBuilder) {}
+
+  ngOnInit(): void {
+    this.cadastroForm = this.fb.group({
+      areasAtuacao: ['', Validators.required],
+      niveisExperiencia: ['', Validators.required]
+    });
+  }
+
+  onAreaChange(area: string): void {
+    this.cadastroForm.get('areasAtuacao')?.setValue(area);
+  }
+
+  onNivelChange(nivel: string): void {
+    this.cadastroForm.get('nivelExperiencia')?.setValue(nivel);
+  }
+
+  onProximo(): void {
+    if(this.cadastroForm.valid) {
+    }
+  }
+
+  onAnterior(): void {
+  }
 }
