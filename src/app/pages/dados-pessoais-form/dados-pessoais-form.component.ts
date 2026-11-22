@@ -28,7 +28,7 @@ export class DadosPessoaisFormComponent implements OnInit {
 
   dadosPessoaisForm!: FormGroup;
 
-  estados$!: Observable<Estado[]>;
+  estado$!: Observable<Estado[]>;
   cidades$!: Observable<Cidade[]>;
 
   carregandoCidades$ = new BehaviorSubject<boolean>(false);
@@ -74,7 +74,7 @@ export class DadosPessoaisFormComponent implements OnInit {
   }
 
   private carregarEstados(): void {
-    this.estados$ = this.ibgeService.getEstados();
+    this.estado$ = this.ibgeService.getEstados();
   }
 
   private carregarListernerEstado(): void {
