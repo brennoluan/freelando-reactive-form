@@ -9,11 +9,11 @@ import { CommonModule } from '@angular/common';
 
 const COMPONENTS = [
   HeaderComponent,
-  FooterComponent,
-  CadastroFormComponent
+  FooterComponent
 ];
 
 const MODULES = [
+  RouterOutlet,
   ReactiveFormsModule
 ];
 
@@ -21,8 +21,9 @@ const MODULES = [
   selector: 'app-root',
   imports: [
     ...COMPONENTS,
-    ...MODULES
-  ],
+    ...MODULES,
+    RouterOutlet
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
